@@ -1,0 +1,27 @@
+(function(wnd, doc) {
+    var slideshowEl,
+        hookEcwidTimeout;
+  
+    function _toggleSlides() {
+      if (!slideshowEl) {
+        slideshowEl = doc.querySelector('.slider-wrapper > .slider');
+      }
+  
+      if (slideshowEl) {
+        // show only on home page
+        slideshowEl.classList[location.pathname === '/' ? 'remove' : 'add']('hidden');
+      }
+    }
+  
+    function _hookEcwid() {
+      if (wnd.Ecwid) {
+        wnd.Ecwid.OnPageLoad.add(_toggleSlides);
+      } else {
+        clearTimeout(hookEcwidTimeout);
+        hookEcwidTimeout = setTimeout(_hookEcwid, 100);
+      }
+    }
+  
+    _toggleSlides();
+    _hookEcwid();
+})(window, document);
