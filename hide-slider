@@ -1,15 +1,17 @@
 (function(wnd, doc) {
-    var slideshowEl,
+    let slideshowEl,
         hookEcwidTimeout;
   
-    function _toggleSlides() {
+    // @see https://api-docs.ecwid.com/reference/ecwidonpageloadecwidonpageloaded
+    function _toggleSlides(page) {
       if (!slideshowEl) {
         slideshowEl = doc.querySelector('.slider-wrapper > .slider');
       }
   
       if (slideshowEl) {
-        // show only on home page
-        slideshowEl.classList[location.pathname === '/' ? 'remove' : 'add']('hidden');
+        const isStartPage = page.type === 'CATEGORY' && page.categoryId === 0;
+
+        slideshowEl.classList[isStartPage ? 'remove' : 'add']('hidden');
       }
     }
   
